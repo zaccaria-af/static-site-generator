@@ -1,8 +1,8 @@
 import re
 from enum import Enum
-from src.htmlnode import ParentNode
-from src.inline_markdown import text_to_textnodes
-from src.textnode import TextNode
+from htmlnode import ParentNode
+from inline_markdown import text_to_textnodes
+from textnode import TextNode
 
 
 class BlockType(Enum):
@@ -14,7 +14,7 @@ class BlockType(Enum):
     ordered_list = "ordered_list"
 
 
-def markdown_to_html_node(markdown):
+def markdown_to_html_node(markdown: str) -> ParentNode:
     blocks = markdown_to_blocks(markdown)
     children = []
     for block in blocks:
@@ -23,7 +23,7 @@ def markdown_to_html_node(markdown):
     return ParentNode("div", children, None)
 
 
-def block_to_html_node(block):
+def block_to_html_node(block: str):
     block_type = block_to_block_type(block)
     if block_type == BlockType.paragraph:
         return paragraph_to_html_node(block)
@@ -74,14 +74,14 @@ def heading_to_html_node(block: str) -> ParentNode:
     return ParentNode(f'h{level}', children)
 
 
-def code_to_html_node(block: str):
+def code_to_html_node(block: str) -> ParentNode:
     text = block[4:-3]
     children = text_to_children(text)
     code = ParentNode("code", children)
     return ParentNode("pre", [code])
 
 
-def olist_to_html_node(block):
+def olist_to_html_node(block: str) -> ParentNode:
     items = block.split("\n")
     html_items = []
     for item in items:
@@ -91,7 +91,7 @@ def olist_to_html_node(block):
     return ParentNode("ol", html_items)
 
 
-def ulist_to_html_node(block):
+def ulist_to_html_node(block: str) -> ParentNode:
     items = block.split("\n")
     html_items = []
     for item in items:
@@ -101,7 +101,7 @@ def ulist_to_html_node(block):
     return ParentNode("ul", html_items)
 
 
-def quote_to_html_node(block):
+def quote_to_html_node(block: str) -> ParentNode:
     lines = block.split("\n")
     new_lines = []
     for line in lines:
