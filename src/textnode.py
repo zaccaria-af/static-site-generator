@@ -28,7 +28,7 @@ class TextNode:
     def text_node_to_html_node(self) -> LeafNode:
         match self.text_type:
             case TextType.text:
-                return LeafNode(value=self.text)
+                return LeafNode(None, value=self.text)
             case TextType.bold:
                 return LeafNode(tag='b', value=self.text)
             case TextType.italic:
@@ -41,5 +41,3 @@ class TextNode:
                 return LeafNode(tag='img', value='', props={'src': self.url, 'alt': self.text})
             case _:
                 raise ValueError(f"Invalid text type: {self.text_type}")
-
-
